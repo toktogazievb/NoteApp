@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.noteapp.R
 import com.example.noteapp.databinding.FragmentOnBoardBinding
 import com.example.noteapp.ui.adapter.OnBoardPagerAdapter
+import com.example.noteapp.utils.PreferenceHelper
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -61,5 +64,12 @@ class OnBoardFragment : Fragment() {
                 setCurrentItem(currentItem + 2, true)
             }
         }
+        binding.btnStart.setOnClickListener {
+            val sharedPreferences = PreferenceHelper()
+            sharedPreferences.unit(requireContext())
+            sharedPreferences.isOnBoardingShowed = true
+            findNavController().navigate(R.id.action_onBoardFragment_to_noteFragment)
+        }
     }
+
 }

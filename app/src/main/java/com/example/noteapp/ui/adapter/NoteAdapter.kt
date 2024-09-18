@@ -1,5 +1,6 @@
 package com.example.noteapp.ui.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -14,6 +15,8 @@ class NoteAdapter : ListAdapter<NoteModel, NoteAdapter.ViewHolder>(DiffCallback(
         fun onBind(item: NoteModel) {
             binding.txtTitle.text = item.title
             binding.txtDescription.text = item.description
+            binding.txtDatetime.text = item.dateTime
+            binding.containerNote.setBackgroundColor(Color.parseColor(item.color))
         }
     }
 

@@ -8,6 +8,8 @@ import androidx.room.PrimaryKey
 data class NoteModel(
     val title: String,
     val description: String,
+    val dateTime: String,
+    val color: String
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

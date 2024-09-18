@@ -8,6 +8,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/container_note"
         tools:background="@color/yellow"
         android:layout_width="match_parent"
         android:padding="12dp"

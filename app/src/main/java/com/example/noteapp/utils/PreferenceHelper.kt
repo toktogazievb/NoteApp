@@ -14,4 +14,8 @@ class PreferenceHelper {
     var isOnBoardingShowed: Boolean
         get() = sharedPreferences.getBoolean("onboard", false)
         set(value) = sharedPreferences.edit().putBoolean("onboard", value).apply()
+
+    var isRecyclerViewGrid: Boolean
+        get() = sharedPreferences.getBoolean("recyclerview", false)
+        set(value) = sharedPreferences.edit().putBoolean("recyclerview", value).apply()
 }

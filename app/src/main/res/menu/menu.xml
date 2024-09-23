@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <item
+        android:id="@+id/onBoardFragment"
+        android:title="Onboard" />
+    <item
+        android:id="@+id/noteFragment"
+        android:title="Note" />
+    <item
+        android:id="@+id/chatFragment"
+        android:title="Chat" />
+</menu>

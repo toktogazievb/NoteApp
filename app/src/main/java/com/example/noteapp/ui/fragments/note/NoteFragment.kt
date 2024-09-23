@@ -5,9 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.observe
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.noteapp.App
@@ -17,11 +23,13 @@ import com.example.noteapp.databinding.FragmentNoteBinding
 import com.example.noteapp.interfaces.OnClickItem
 import com.example.noteapp.ui.adapter.NoteAdapter
 import com.example.noteapp.utils.PreferenceHelper
+import com.google.android.material.navigation.NavigationView
 
 class NoteFragment : Fragment(), OnClickItem {
 
     private lateinit var binding: FragmentNoteBinding
     private val noteAdapter = NoteAdapter(this, this)
+    private lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,20 +44,46 @@ class NoteFragment : Fragment(), OnClickItem {
         initialize()
         setupListeners()
         getData()
+
     }
 
     private fun initialize() {
         binding.homeRecyclerView.apply {
             val sharedPreferences = PreferenceHelper()
             sharedPreferences.unit(requireContext())
-            if (sharedPreferences.isRecyclerViewGrid){
+            if (sharedPreferences.isRecyclerViewGrid) {
                 layoutManager = GridLayoutManager(requireContext(), 2)
                 binding.btnChangerRv.setImageResource(R.drawable.ic_rv_linear)
-            }else if (!sharedPreferences.isRecyclerViewGrid){
+            } else if (!sharedPreferences.isRecyclerViewGrid) {
                 layoutManager = LinearLayoutManager(requireContext())
                 binding.btnChangerRv.setImageResource(R.drawable.ic_rv_grid)
             }
             adapter = noteAdapter
+        }
+
+        binding.apply {
+            toggle = ActionBarDrawerToggle(
+                requireActivity(),
+                drawerLayout,
+                R.string.open,
+                R.string.close
+            )
+            drawerLayout.addDrawerListener(toggle)
+            toggle.syncState()
+
+            navView.setNavigationItemSelectedListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.onBoardFragment ->
+                        findNavController().navigate(R.id.onBoardFragment)
+
+                    R.id.noteFragment ->
+                        findNavController().navigate(R.id.noteFragment)
+
+                    R.id.chatFragment ->
+                        findNavController().navigate(R.id.chatFragment)
+                }
+                true
+            }
         }
     }
 
@@ -73,6 +107,9 @@ class NoteFragment : Fragment(), OnClickItem {
                     sharedPreferences.isRecyclerViewGrid = false
                 }
             }
+        }
+        btnMenu.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
         }
     }
 

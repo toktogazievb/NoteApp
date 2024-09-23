@@ -9,6 +9,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHost
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.noteapp.R
 import com.example.noteapp.databinding.ActivityMainBinding
 import com.example.noteapp.utils.PreferenceHelper
@@ -22,11 +23,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
         navController = navHostFragment.navController
-
         val sharedPreferences = PreferenceHelper()
         sharedPreferences.unit(this)
         if (sharedPreferences.isOnBoardingShowed) {

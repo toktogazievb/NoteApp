@@ -1,8 +1,16 @@
 package com.example.noteapp.ui.activity
 
+import android.os.Build
 import android.os.Bundle
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
@@ -18,14 +26,20 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        if (intent.getBooleanExtra("request_notification_permission", false)) {
+            requestNotificationPermission()
+        }
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
         navController = navHostFragment.navController
+
         val sharedPreferences = PreferenceHelper()
         sharedPreferences.unit(this)
         if (sharedPreferences.isOnBoardingShowed) {
@@ -38,5 +52,16 @@ class MainActivity : AppCompatActivity() {
         } else if (!sharedPreferences.isOnBoardingShowed) {
             navController.navigate(R.id.onBoardFragment)
         }
+    }
+
+    private fun requestNotificationPermission() {
+        requestPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+                if (isGranted) {
+                }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }}
+
     }
 }

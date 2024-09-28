@@ -5,6 +5,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.noteapp.data.db.AppDatabase
 import com.example.noteapp.utils.PreferenceHelper
+import com.google.firebase.FirebaseApp
 
 class App : Application() {
 
